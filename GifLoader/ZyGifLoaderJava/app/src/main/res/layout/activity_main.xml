@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="eventProcessor"
+            type="com.zy.zygifloader.MainActivity.MainEventProcessor" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/sample_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/sample_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:minWidth="320dp"
+            android:minHeight="250dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sample_text" />
+
+        <Button
+            android:id="@+id/btn_load_with_java"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="@{()-> eventProcessor.loadGifByJava()}"
+            android:text="loadByJava"
+            app:layout_constraintTop_toBottomOf="@id/sample_iv" />
+
+        <Button
+            android:id="@+id/btn_load_with_ndk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="@{()-> eventProcessor.loadGifByNdk()}"
+            android:text="loadByNdk"
+            app:layout_constraintTop_toBottomOf="@id/btn_load_with_java" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
