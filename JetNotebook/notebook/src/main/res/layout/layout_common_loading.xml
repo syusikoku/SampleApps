@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.zy.jet.notebook.jetpack.viewmodel.HomeListViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rl_loading_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_green_50"
+        android:gravity="center"
+        app:isGone="@{viewModel.isShowLoading}"
+        tools:showIn="@layout/fragment_home">
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/tv_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pb_loading"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="loading...." />
+    </RelativeLayout>
+</layout>

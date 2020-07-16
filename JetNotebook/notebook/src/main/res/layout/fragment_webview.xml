@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="mainViewModel"
+            type="com.zy.jet.notebook.jetpack.viewmodel.MainViewModel" />
+
+        <variable
+            name="homeListViewModel"
+            type="com.zy.jet.notebook.jetpack.viewmodel.HomeListViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/material_blue_grey_50"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/pb_webview"
+                style="@style/AppTheme.Pbloading"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10" />
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <include
+            layout="@layout/layout_common_loading"
+            app:viewModel="@{homeListViewModel}" />
+    </FrameLayout>
+
+</layout>

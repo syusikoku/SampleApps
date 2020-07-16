@@ -1,0 +1,67 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Pbloading" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:minHeight">@dimen/dp_5</item>
+        <item name="android:maxHeight">@dimen/dp_10</item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:progressDrawable">@drawable/shape_pb</item>
+    </style>
+
+    <style name="AppTheme.StyleNavButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_45</item>
+        <item name="android:layout_marginLeft">@dimen/dp_20</item>
+        <item name="android:layout_marginRight">@dimen/dp_20</item>
+        <item name="android:background">@drawable/btn_nav_item</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--菜单 样式修改-->
+    <!--修改三点菜单颜色-->
+    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@android:color/holo_orange_dark</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/holo_red_dark</item>
+        <item name="android:textColor">@android:color/holo_purple</item>
+        <item name="actionMenuTextColor" tools:ignore="DuplicateDefinition">@color/white</item>
+        <item name="actionMenuTextAppearance">@style/AppTheme.Toolbar.MenuTextAppearance
+        </item>
+    </style>
+
+    <!--设置菜单的弹出位置-->
+    <style name="AppTheme.Toolbar.PopupOverflow" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:popupBackground">?attr/colorPrimary</item>
+        <!-- 弹出层垂直方向上的偏移，即在竖直方向上距离Toolbar的距离，值为负则会盖住Toolbar -->
+        <item name="android:dropDownVerticalOffset">5dip</item>
+        <!-- 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 -->
+        <item name="android:dropDownHorizontalOffset">0dip</item>
+        <!--弹出菜单的样式-->
+        <item name="android:colorBackground">#212121</item>
+    </style>
+
+    <!--toolbar标题字体大小修改-->
+    <style name="AppTheme.Toolbar.TitleTextAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/dp_22</item>
+    </style>
+
+    <!--菜单 字体大小修改-->
+    <style name="AppTheme.Toolbar.MenuTextAppearance" parent="@style/TextAppearance.AppCompat.Menu">
+        <item name="android:textSize">@dimen/dp_16</item>
+    </style>
+
+</resources>

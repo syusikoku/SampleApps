@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/hav_home2"
+        android:title="首页" />
+    <item android:title="Gallery" />
+    <item android:title="Slideshow" />
+    <item android:title="Tools" />
+
+    <group android:checkableBehavior="single">
+        <item android:title="Communicate">
+            <menu>
+                <item android:title="Share" />
+                <item android:title="Send" />
+            </menu>
+        </item>
+    </group>
+</menu>

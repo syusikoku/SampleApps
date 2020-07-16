@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.zy.jet.notebook.jetpack.viewmodel.NavFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y30"
+            android:gravity="center"
+            android:text="处理应用内导航所需的一切"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_nav_drawerlayout"
+            style="@style/AppTheme.StyleNavButton"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:onClick="@{(view)-> viewModel.goNavSample(view)}"
+            android:text="Drawerlayout_Nav"
+            app:layout_constraintBottom_toTopOf="@+id/btn_nav_drawerlayout2"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/btn_nav_drawerlayout2"
+            style="@style/AppTheme.StyleNavButton"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:onClick="@{(view)-> viewModel.goNavSample2(view)}"
+            android:text="Drawerlayout_Nav2"
+            app:layout_constraintBottom_toTopOf="@id/btn_bottomnav"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/btn_bottomnav"
+            style="@style/AppTheme.StyleNavButton"
+            android:layout_marginBottom="@dimen/dp_25"
+            android:onClick="@{(view)-> viewModel.goBottomNavSample(view)}"
+            android:text="BottomNavigation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

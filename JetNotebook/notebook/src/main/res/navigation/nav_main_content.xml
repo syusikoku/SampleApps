@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main_content"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.zy.jet.notebook.ui.fragment.HomeFragment"
+        android:label="首页">
+        <action
+            android:id="@+id/nav_to_navigation"
+            app:destination="@id/navigationFragment" />
+        <action
+            android:id="@+id/nav_to_moreNavigation"
+            app:destination="@id/moreNavigationFragment" />
+        <action
+            android:id="@+id/nav_to_webView"
+            app:destination="@id/webViewFragment" />
+        <action
+            android:id="@+id/nav_to_settings"
+            app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/nav_to_about"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/nav_to_livedata"
+            app:destination="@id/liveDataFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigationFragment"
+        android:name="com.zy.jet.notebook.ui.fragment.NavigationFragment"
+        android:label="Navigation示例">
+        <action
+            android:id="@+id/nav_to_new_sample"
+            app:destination="@id/navSampleActivity" />
+        <action
+            android:id="@+id/nav_to_new_sample2"
+            app:destination="@id/navSampleActivity2" />
+        <action
+            android:id="@+id/nav_to_new_bsample"
+            app:destination="@id/bottomNavSampleActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/moreNavigationFragment"
+        android:name="com.zy.jet.notebook.ui.fragment.MoreNavigationFragment"
+        android:label="Navigation示例2" />
+
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.zy.jet.notebook.ui.fragment.WebViewFragment"
+        android:label="网页浏览">
+
+        <argument
+            android:name="index"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.zy.jet.notebook.ui.fragment.SettingsFragment"
+        android:label="设置中心" />
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.zy.jet.notebook.ui.fragment.AboutFragment"
+        android:label="关于" />
+
+    <fragment
+        android:id="@+id/liveDataFragment"
+        android:name="com.zy.jet.notebook.ui.fragment.LiveDataFragment"
+        android:label="LiveData示例" />
+
+    <activity
+        android:id="@+id/navSampleActivity"
+        android:name="com.zy.jet.notebook.ui.activity.samples.NavSampleActivity"
+        android:label="NavSampleActivity"
+        tools:layout="@layout/activity_nav_sample" />
+
+    <activity
+        android:id="@+id/navSampleActivity2"
+        android:name="com.zy.jet.notebook.ui.activity.samples.NavSampleActivity2"
+        android:label="NavSampleActivity2"
+        tools:layout="@layout/activity_nav_sample2" />
+
+    <activity
+        android:id="@+id/bottomNavSampleActivity"
+        android:name="com.zy.jet.notebook.ui.activity.samples.BottomNavSampleActivity"
+        android:label="BottomNavSampleActivity"
+        tools:layout="@layout/activity_bottomnav_sample" />
+
+</navigation>

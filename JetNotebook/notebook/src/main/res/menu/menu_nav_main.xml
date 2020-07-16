@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_common"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/homeFragment"
+            android:title="首页" />
+        <item
+            android:id="@+id/navigationFragment"
+            android:title="navgation" />
+        <item
+            android:id="@+id/moreNavigationFragment"
+            android:title="navgation_more" />
+        <item
+            android:id="@+id/liveDataFragment"
+            android:title="livedata" />
+        <item
+            android:id="@+id/action_menu_more"
+            android:title="更多案例" />
+    </group>
+    <group
+        android:id="@+id/group_others"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/settingFragment"
+            android:title="设置中心" />
+        <item
+            android:id="@+id/aboutFragment"
+            android:title="关于" />
+    </group>
+</menu>

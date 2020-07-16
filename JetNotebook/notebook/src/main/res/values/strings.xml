@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">notebook</string>
+    <string name="test_desc">
+        Jetpack 是一套库、工具和指南，可帮助开发者更轻松地编写优质应用。这些组件可帮助您遵循最佳做法、让您摆脱编写样板代码的工作并简化复杂任务，以便您将精集中放在所需的代码上。
+    </string>
+
+    <string name="about_str">
+        JetNotebook是一款Jetpack框架的学习笔记应用，该应用囊括了ViewModel,ROOM,LiveData,Paging,Navigation的使用，及Design包中的CoordinatorLayout,AppbarLayout,CollapsingToolbarLayout,ToolBar等控件的使用,在该应用中，你可以方便的通过UI切换，来体验到组件的使用效果。
+    </string>
+</resources>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+                name="eventProcessor"
+                type="com.zy.douyin2.VideoRecActivity.VideoRecEventProcessor" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity">
+
+        <com.zy.douyin2.widget.DYRecGLSurfaceView
+                android:id="@+id/gsl_douyin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/accb_beauty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_15"
+                android:padding="@dimen/dp_5"
+                android:text="美颜"
+                android:textColor="@color/colorPrimaryDark" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/accb_bigeye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_15"
+                android:layout_toRightOf="@id/accb_beauty"
+                android:padding="@dimen/dp_5"
+                android:text="大眼"
+                android:textColor="@color/colorPrimaryDark" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/accb_stick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_15"
+                android:layout_toRightOf="@id/accb_bigeye"
+                android:padding="@dimen/dp_5"
+                android:text="贴纸"
+                android:textColor="@color/colorPrimaryDark" />
+
+        <RadioGroup
+                android:id="@+id/rg_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/bt_record"
+                android:layout_marginLeft="@dimen/dp_45"
+                android:layout_marginRight="@dimen/dp_45"
+                android:layout_marginBottom="@dimen/dp_25"
+                android:background="@drawable/shape_rb"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_2">
+
+            <RadioButton
+                    android:id="@+id/rb_fast_slow"
+                    style="@style/style_rb_item"
+                    android:text="极慢" />
+
+            <RadioButton
+                    android:id="@+id/rb_slow"
+                    style="@style/style_rb_item"
+                    android:text="慢" />
+
+            <RadioButton
+                    android:id="@+id/rb_stand"
+                    style="@style/style_rb_item"
+                    android:checked="true"
+                    android:text="标准" />
+
+            <RadioButton
+                    android:id="@+id/rb_quick"
+                    style="@style/style_rb_item"
+                    android:text="快" />
+
+            <RadioButton
+                    android:id="@+id/rb_fast_quick"
+                    style="@style/style_rb_item"
+                    android:text="极快" />
+        </RadioGroup>
+
+        <com.zy.douyin2.widget.RecordButton
+                android:id="@+id/bt_record"
+                android:layout_width="@dimen/dp_85"
+                android:layout_height="@dimen/dp_85"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/dp_45"
+                android:background="@drawable/selector_record"
+                android:gravity="center"
+                android:text="录制"
+                android:textColor="@color/selector_rb_item"
+                android:textSize="@dimen/dp_18" />
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarlayout_bnavs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_bnavs"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:title="BottomNavigationf示例"
+                app:titleTextColor="@color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <fragment
+            android:id="@+id/fragment_bnavs"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bnavs_sample"
+            android:layout_below="@id/appbarlayout_bnavs"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_bnavs_sample" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnavs_sample"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:fitsSystemWindows="true"
+            android:foregroundGravity="center"
+            app:itemIconTint="@color/bottom_navigation_item_selector"
+            app:itemTextColor="@color/bottom_navigation_item_selector"
+            app:menu="@menu/menu_main_navs" />
+
+    </RelativeLayout>
+</layout>
