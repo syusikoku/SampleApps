@@ -1,0 +1,85 @@
+import 'dart:core';
+
+import 'package:sample_search_phonenumber/utils/LogUtil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+/// 参考工具类
+/// https://blog.csdn.net/sinat_31057219/article/details/90237902
+/// 使用方式：
+/// SPUtils.instance 或new SPUtils() 对象均为单例
+/// var instance = SPUtils.instance;
+///     instance.put("cache_verify_list", "");
+///     var spUtils2 = new SPUtils();
+///     // spUtils2.put("cache_verify_list", "");
+///     LogUtil.e("instance: $instance , spUtils: $spUtils , spUtils2:$spUtils2");
+class SPUtils {
+  // 从命名的 _ 可以知，
+  // _instance 是私有属性。
+  static final SPUtils _instance = SPUtils._internal();
+
+  static SPUtils get instance => _instance;
+
+  // 私有变量
+  SPUtils._internal();
+
+  factory SPUtils() => _instance;
+
+  put(String key, Object object) {
+    asyncPut(key, object).then((value) {
+      LogUtil.e("put ${value == 1 ? 'sucess' : 'failure'}");
+    });
+  }
+
+  /// 存储数据
+  Future<int> asyncPut(String key, Object value) async {
+    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var flag = 1;
+    if (value is int) {
+      await _sharedPreferences.setInt(key, value);
+    } else if (value is double) {
+      await _sharedPreferences.setDouble(key, value);
+    } else if (value is bool) {
+      await _sharedPreferences.setBool(key, value);
+    } else if (value is String) {
+      await _sharedPreferences.setString(key, value);
+    } else if (value is List<String>) {
+      await _sharedPreferences.setStringList(key, value);
+    } else {
+      // throw new Exception("不支持的数据类型");
+      flag = 0;
+    }
+    return flag;
+  }
+
+  /// 获取数据
+  Future take(String key, Object defaultValue) async {
+    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    if (defaultValue is int) {
+      return _sharedPreferences.getInt(key);
+    } else if (defaultValue is double) {
+      return _sharedPreferences.getDouble(key);
+    } else if (defaultValue is bool) {
+      return _sharedPreferences.getBool(key);
+    } else if (defaultValue is String) {
+      return _sharedPreferences.getString(key);
+    } else if (defaultValue is List<String>) {
+      return _sharedPreferences.getStringList(key);
+    } else {
+      throw new Exception("不支持的数据类型");
+    }
+  }
+
+  /// 删除指定的数据
+  remove(String key) async {
+    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    // 删除指定key
+    _sharedPreferences.remove(key);
+  }
+
+  /// 清空整个缓存
+  clear() async {
+    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    // 清空数据
+    _sharedPreferences.clear();
+  }
+}
