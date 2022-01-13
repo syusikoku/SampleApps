@@ -1,0 +1,3 @@
+rootProject.name = "ZyResourceParser"
+include ':app'
+include ':ParserHelper'
