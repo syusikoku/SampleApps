@@ -16,8 +16,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -69,13 +71,14 @@ public class ParserEngine {
             for (File valuesFile : valuesListFiles) {
                 String valuesFilePath = valuesFile.getAbsolutePath();
                 String valueFileName = valuesFile.getName();
-                System.out.println("start valuesFilePath: " + valuesFilePath + ", valueFileName: "
-                        + valueFileName);
+                System.out.println("start valuesFilePath: " + valuesFilePath + " , valueFileName = " + valueFileName);
 
-                if (valueFileName.equalsIgnoreCase("values-zh-rCN")
-                        || valueFileName.equalsIgnoreCase("values-zh-rHK")
-                        || valueFileName.equalsIgnoreCase("values-ja")
-                        || valueFileName.equalsIgnoreCase("values")) {
+                if (
+                        valueFileName.equalsIgnoreCase("values-zh-rCN")
+                                || valueFileName.equalsIgnoreCase("values-zh-rHK")
+                                || valueFileName.equalsIgnoreCase("values-zh-rTW")
+                                || valueFileName.equalsIgnoreCase("values-ja")
+                                || valueFileName.equalsIgnoreCase("values")) {
                     // values目录对应的语言
                     String locale = getLocale(valueFileName);
                     if (locale == null) {
@@ -107,6 +110,10 @@ public class ParserEngine {
             } // values end
         } // res end
 
+        if (stringsMap.isEmpty()) {
+            System.out.println("stringsMap.isEmpty。。。");
+            return;
+        }
         // 获取到的所有string字段
         allData.addAll(stringsMap.values());
 
@@ -128,7 +135,7 @@ public class ParserEngine {
         Cell zhRHK = titleRow.createCell(3);
         zhRHK.setCellValue("zh-rHK");
         Cell ja = titleRow.createCell(4);
-        ja.setCellValue("zh-rHK");
+        ja.setCellValue("zh-ja");
 
         for (int i = 0; i < allData.size(); i++) {
             int index = i + 1;
@@ -214,16 +221,31 @@ public class ParserEngine {
                 if (name.toLowerCase().equals("res")) {
                     File[] listFiles = rootListFile.listFiles();
                     System.out.println("getResFilePath listFiles: " + listFiles.length);
+                    Set<String> filePathSet = new LinkedHashSet<>();
                     if (listFiles.length > 0) {
+                        boolean isIgnoreRes = false;
                         for (File file : listFiles) {
                             boolean contains = file.getName().toLowerCase().contains("values");
                             System.out.println("getResFilePath contains: " + contains);
+                            String path = file.getAbsolutePath();
+                            // 处理忽略的资源目录
+                            for (String s : AppConfigs.IGNORE_RES_LIST) {
+                                if (path.contains(s)) {
+                                    isIgnoreRes = true;
+                                    break;
+                                }
+                            }
+                            if (isIgnoreRes) {
+                                continue;
+                            }
                             if (contains) {
-                                resFilePaths.add(file.getAbsolutePath());
+                                // 这里返回的只是resource目录
+                                filePathSet.add(rootListFile.getAbsolutePath());
                             }
                         }
+                        resFilePaths.addAll(filePathSet);
                         System.out.println("getResFilePath resFilePaths.len = " + resFilePaths.size());
-                       // codeBak(resFilePaths, rootListFile, listFiles[0]);
+                        // codeBak(resFilePaths, rootListFile, listFiles[0]);
                     }
                 } else {
                     loadResFilePath(rootListFile.getAbsolutePath(), resFilePaths);
@@ -256,9 +278,7 @@ public class ParserEngine {
             SAXParser saxParser = factory.newSAXParser();
             // 解析XML
             saxParser.parse(new File(stringFilePath), new ParseSAX(stringsMap, targetPath, locale));
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
