@@ -12,9 +12,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,11 +31,17 @@ import javax.xml.parsers.SAXParserFactory;
  * 解析引擎
  */
 public class ParserEngine {
-    public String sourceDirPath, outputPath;
+    private String sourceDirPath, outputPath;
+    private List<String> supportLanguageList;
+    private List<String> ignoreFileList;
 
     public ParserEngine(String[] configs) {
         sourceDirPath = configs[0];
         outputPath = configs[1];
+        String supportLanguages = configs[2];
+        supportLanguageList = Arrays.asList(supportLanguages.split(","));
+        String ignoreFiles = configs[3];
+        ignoreFileList = Arrays.asList(ignoreFiles.split(","));
     }
 
     public void launch() {
@@ -73,12 +81,7 @@ public class ParserEngine {
                 String valueFileName = valuesFile.getName();
                 System.out.println("start valuesFilePath: " + valuesFilePath + " , valueFileName = " + valueFileName);
 
-                if (
-                        valueFileName.equalsIgnoreCase("values-zh-rCN")
-                                || valueFileName.equalsIgnoreCase("values-zh-rHK")
-                                || valueFileName.equalsIgnoreCase("values-zh-rTW")
-                                || valueFileName.equalsIgnoreCase("values-ja")
-                                || valueFileName.equalsIgnoreCase("values")) {
+                if (supportLanguageList.contains(valueFileName)) {
                     // values目录对应的语言
                     String locale = getLocale(valueFileName);
                     if (locale == null) {
@@ -201,68 +204,30 @@ public class ParserEngine {
                 continue;
             }
 
-
-            if (!AppConfigs.IGNORE_FILE_LIST.isEmpty()) {
-                boolean hasIgnore = false;
-                // 忽略指定目录
-                for (String s : AppConfigs.IGNORE_FILE_LIST) {
-                    if (name.contains(s)) {
-                        hasIgnore = true;
-                        break;
-                    }
-                }
-
-                if (hasIgnore) {
-                    continue;
-                }
+            if (ignoreFileList.contains(name)) {
+                continue;
             }
 
             if (isDirectory) {
                 if (name.toLowerCase().equals("res")) {
-                    File[] listFiles = rootListFile.listFiles();
-                    System.out.println("getResFilePath listFiles: " + listFiles.length);
-                    Set<String> filePathSet = new LinkedHashSet<>();
-                    if (listFiles.length > 0) {
-                        boolean isIgnoreRes = false;
-                        for (File file : listFiles) {
-                            boolean contains = file.getName().toLowerCase().contains("values");
-                            System.out.println("getResFilePath contains: " + contains);
-                            String path = file.getAbsolutePath();
-                            // 处理忽略的资源目录
-                            for (String s : AppConfigs.IGNORE_RES_LIST) {
-                                if (path.contains(s)) {
-                                    isIgnoreRes = true;
-                                    break;
-                                }
+                    File[] listFiles = rootListFile.listFiles(new FilenameFilter() {
+                        @Override
+                        public boolean accept(File dir, String name) {
+                            if (supportLanguageList.contains(name)) {
+                                return true;
                             }
-                            if (isIgnoreRes) {
-                                continue;
-                            }
-                            if (contains) {
-                                // 这里返回的只是resource目录
-                                filePathSet.add(rootListFile.getAbsolutePath());
-                            }
+                            return false;
                         }
-                        resFilePaths.addAll(filePathSet);
+                    });
+                    System.out.println("getResFilePath listFiles: " + listFiles.length);
+                    if (listFiles.length > 0) {
+                        resFilePaths.add(rootListFile.getAbsolutePath());
                         System.out.println("getResFilePath resFilePaths.len = " + resFilePaths.size());
-                        // codeBak(resFilePaths, rootListFile, listFiles[0]);
                     }
                 } else {
                     loadResFilePath(rootListFile.getAbsolutePath(), resFilePaths);
                 }
             }
-        }
-    }
-
-    private void codeBak(List<String> resFilePaths, File rootListFile, File listFile) {
-        System.out.println("getResFilePath listFiles[0].getName().toLowerCase(): "
-                + listFile.getName().toLowerCase());
-        boolean contains = listFile.getName().toLowerCase().contains("values");
-        System.out.println("getResFilePath contains: " + contains);
-        if (contains) {
-            resFilePaths.add(rootListFile.getAbsolutePath());
-        } else {
-            loadResFilePath(rootListFile.getAbsolutePath(), resFilePaths);
         }
     }
 

@@ -12,7 +12,7 @@ public class ParserHelper {
      * @return
      */
     public String[] loadAppConfig(String configFilePath) {
-        String[] r = new String[2];
+        String[] r = new String[4];
         File configFile = new File(configFilePath);
         if (configFile.exists()) {
             FileInputStream fis = null;
@@ -27,6 +27,12 @@ public class ParserHelper {
                     String xlsPath = properties.getProperty("OUT_XLS_DIR_PATH");
                     System.out.println("xlsPath = " + xlsPath);
                     r[1] = xlsPath;
+                    String supportLanugageList = properties.getProperty("SUPPORT_LANUGAGE_LIST");
+                    System.out.println("supportLanugageList = " + supportLanugageList);
+                    r[2] = supportLanugageList;
+                    String ignoreFileList = properties.getProperty("IGNORE_FILE_LIST");
+                    System.out.println("ignoreFileList = " + ignoreFileList);
+                    r[3] = ignoreFileList;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
