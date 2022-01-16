@@ -257,10 +257,11 @@ public class ParserEngine {
         if (tmpFileName.equals("values")) {
             locale = AppConfigs.LOCALE_EN;
         } else {
-            String fileNameStr = tmpFileName.replace("values", "");
+            String fileNameStr = tmpFileName.replace("values-", "");
             if (fileNameStr.contains(AppConfigs.LOCALE_ZH_RCN)) {
                 locale = AppConfigs.LOCALE_ZH_RCN;
-            } else if (fileNameStr.contains(AppConfigs.LOCALE_ZH_RHK)) {
+            } else if (fileNameStr.contains(AppConfigs.LOCALE_ZH_RHK)
+                    || fileNameStr.contains(AppConfigs.LOCALE_ZH_RTW)) {
                 locale = AppConfigs.LOCALE_ZH_RHK;
             } else if (fileNameStr.contains(AppConfigs.LOCALE_JA)) {
                 locale = AppConfigs.LOCALE_JA;
@@ -329,7 +330,8 @@ public class ParserEngine {
                     mCurrentBean.mEnContent += str;
                 } else if (AppConfigs.LOCALE_ZH_RCN.equals(mLocale)) {
                     mCurrentBean.mZhRCNContent += str;
-                } else if (AppConfigs.LOCALE_ZH_RHK.equals(mLocale)) {
+                } else if (AppConfigs.LOCALE_ZH_RHK.equals(mLocale)
+                        || AppConfigs.LOCALE_ZH_RTW.equals(mLocale)) {
                     mCurrentBean.mZhRHKContent += str;
                 } else if (AppConfigs.LOCALE_JA.equals(mLocale)) {
                     mCurrentBean.mJaContent += str;
