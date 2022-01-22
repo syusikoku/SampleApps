@@ -1,13 +1,15 @@
-package com.kasax.parserhelper;
+package com.kasax.parserhelper.utils;
+
+
+import com.kasax.parserhelper.configs.AppConfigs;
+import com.kasax.parserhelper.entry.StringBean;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,10 +20,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -34,6 +35,7 @@ public class ParserEngine {
     private String sourceDirPath, outputPath;
     private List<String> supportLanguageList;
     private List<String> ignoreFileList;
+    private Map<String, String> defLanuageList;
 
     public ParserEngine(String[] configs) {
         sourceDirPath = configs[0];
@@ -42,6 +44,16 @@ public class ParserEngine {
         supportLanguageList = Arrays.asList(supportLanguages.split(","));
         String ignoreFiles = configs[3];
         ignoreFileList = Arrays.asList(ignoreFiles.split(","));
+        defLanuageList = new LinkedHashMap<>();
+        String defLanguages = configs[4];
+        List<String> defLans = Arrays.asList(defLanguages.split(","));
+        for (String lan : defLans) {
+            if (lan.equals("values")) {
+                defLanuageList.put(lan, AppConfigs.LOCALE_EN);
+            } else {
+                defLanuageList.put(lan, lan.replace("values-", ""));
+            }
+        }
     }
 
     public void launch() {
@@ -83,7 +95,8 @@ public class ParserEngine {
 
                 if (supportLanguageList.contains(valueFileName)) {
                     // values目录对应的语言
-                    String locale = getLocale(valueFileName);
+                    // String locale = getLocale(valueFileName);
+                    String locale = defLanuageList.get(valueFileName);
                     if (locale == null) {
                         return;
                     }
@@ -142,9 +155,7 @@ public class ParserEngine {
 
         for (int i = 0; i < allData.size(); i++) {
             int index = i + 1;
-
             titleRow = sheet.createRow(index);
-
             StringBean bean = allData.get(i);
             nameCell = titleRow.createCell(0);
             nameCell.setCellValue(bean.mName);
@@ -213,6 +224,7 @@ public class ParserEngine {
                     File[] listFiles = rootListFile.listFiles(new FilenameFilter() {
                         @Override
                         public boolean accept(File dir, String name) {
+                            // 只添加支持的列表，其它全部忽略
                             if (supportLanguageList.contains(name)) {
                                 return true;
                             }
@@ -221,6 +233,7 @@ public class ParserEngine {
                     });
                     System.out.println("getResFilePath listFiles: " + listFiles.length);
                     if (listFiles.length > 0) {
+                        // 添加的是以res结尾的路径，只会有一个
                         resFilePaths.add(rootListFile.getAbsolutePath());
                         System.out.println("getResFilePath resFilePaths.len = " + resFilePaths.size());
                     }
@@ -248,95 +261,20 @@ public class ParserEngine {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    private String getLocale(String fileName) {
-        String locale = null;
-        String tmpFileName = fileName.toLowerCase();
-        if (tmpFileName.equals("values")) {
-            locale = AppConfigs.LOCALE_EN;
-        } else {
-            String fileNameStr = tmpFileName.replace("values-", "");
-            if (fileNameStr.contains(AppConfigs.LOCALE_ZH_RCN)) {
-                locale = AppConfigs.LOCALE_ZH_RCN;
-            } else if (fileNameStr.contains(AppConfigs.LOCALE_ZH_RHK)
-                    || fileNameStr.contains(AppConfigs.LOCALE_ZH_RTW)) {
-                locale = AppConfigs.LOCALE_ZH_RHK;
-            } else if (fileNameStr.contains(AppConfigs.LOCALE_JA)) {
-                locale = AppConfigs.LOCALE_JA;
-            }
-        }
-        return locale;
+    /**
+     * 释放资源
+     */
+    public void release() {
+        sourceDirPath = null;
+        outputPath = null;
+        supportLanguageList.clear();
+        supportLanguageList = null;
+        ignoreFileList.clear();
+        ignoreFileList = null;
+        defLanuageList.clear();
+        defLanuageList = null;
     }
 
-    public static class ParseSAX extends DefaultHandler {
-        public static final String Q_STRING = "string";
-        public static final String ATTR_NAME = "name";
-        public static final String ATTR_TRANSLATABLE = "translatable";
-        private Map<String, StringBean> mStringsMap;
-        private StringBean mCurrentBean;
-        private String mLocale = null;
-        private String mTargetPath = null;
-
-        public ParseSAX(Map<String, StringBean> stringsMap, String targetPath, String locale) {
-            mStringsMap = stringsMap;
-            mTargetPath = targetPath;
-            mLocale = locale;
-        }
-
-        @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes)
-                throws SAXException {
-            if (qName.toLowerCase().equalsIgnoreCase(Q_STRING)) {
-                String name = attributes.getValue(ATTR_NAME);
-                // 有些string字段带有translatable属性，不需要翻译，此处我没有进行排除， 需要进行排除的可以自己判断下
-                int index = attributes.getIndex(ATTR_TRANSLATABLE);
-                System.out.println("startElement index: " + index);
-                if (index != -1) {
-                    String value = attributes.getValue(index);
-                    System.out.println("startElement value: " + value);
-                }
-                System.out.println("qName: <" + qName + " name=" + name + ">");
-                // 此处使用name + "_" + mTargetPath，是因为整个系统的string字段的name肯定有重复的，加上mTargetPath是为了保证唯一性
-                StringBean bean = mStringsMap.get(name + "_" + mTargetPath);
-                if (bean == null) {
-                    bean = new StringBean();
-                }
-                mCurrentBean = bean;
-                bean.mName = name;
-                bean.mTargetPath = mTargetPath;
-
-            } else {
-                System.out.println("qName: <" + qName + ">");
-            }
-
-        }
-
-        @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException {
-            System.out.println("qName: <" + qName + ">");
-            if (Q_STRING.equals(qName)) {
-                mStringsMap.put(mCurrentBean.mName + "_" + mCurrentBean.mTargetPath, mCurrentBean);
-            }
-        }
-
-        @Override
-        public void characters(char[] ch, int start, int length) throws SAXException {
-            String str = new String(ch, start, length);
-            if (!"\r\n".equals(str) && mCurrentBean != null) {
-                System.out.println(str);
-                if (AppConfigs.LOCALE_EN.equals(mLocale)) {
-                    mCurrentBean.mEnContent += str;
-                } else if (AppConfigs.LOCALE_ZH_RCN.equals(mLocale)) {
-                    mCurrentBean.mZhRCNContent += str;
-                } else if (AppConfigs.LOCALE_ZH_RHK.equals(mLocale)
-                        || AppConfigs.LOCALE_ZH_RTW.equals(mLocale)) {
-                    mCurrentBean.mZhRHKContent += str;
-                } else if (AppConfigs.LOCALE_JA.equals(mLocale)) {
-                    mCurrentBean.mJaContent += str;
-                }
-            }
-        }
-    }
 }

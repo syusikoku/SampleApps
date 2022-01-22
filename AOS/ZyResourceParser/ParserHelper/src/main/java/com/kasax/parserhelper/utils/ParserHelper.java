@@ -1,4 +1,4 @@
-package com.kasax.parserhelper;
+package com.kasax.parserhelper.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +12,7 @@ public class ParserHelper {
      * @return
      */
     public String[] loadAppConfig(String configFilePath) {
-        String[] r = new String[4];
+        String[] r = new String[5];
         File configFile = new File(configFilePath);
         if (configFile.exists()) {
             FileInputStream fis = null;
@@ -33,6 +33,9 @@ public class ParserHelper {
                     String ignoreFileList = properties.getProperty("IGNORE_FILE_LIST");
                     System.out.println("ignoreFileList = " + ignoreFileList);
                     r[3] = ignoreFileList;
+                    String defaultLanuageList = properties.getProperty("DEFAULT_LANUAGE_LIST");
+                    System.out.println("defaultLanuageList = " + defaultLanuageList);
+                    r[4] = defaultLanuageList;
                 }
             } catch (IOException e) {
                 e.printStackTrace();

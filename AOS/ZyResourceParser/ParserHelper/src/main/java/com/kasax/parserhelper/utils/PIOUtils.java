@@ -1,4 +1,4 @@
-package com.kasax.parserhelper;
+package com.kasax.parserhelper.utils;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
