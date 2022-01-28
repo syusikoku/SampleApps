@@ -1,0 +1,16 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+rootProject.name = "ScreenAdaptation"
+//include ':SampleAutoLayout'
+//include ':SampleAutoSize'
+//include ':PercentSupport'
+//include ':mybase'
+//include ':smallestwidth'
+//include ':WidthHeightQualifierAdaptation'
+//include ':GenerateDp'

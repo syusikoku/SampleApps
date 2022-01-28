@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PercentSupport</string>
+    <string name="sample_adapt">简单适配</string>
+    <string name="complex_adapt">复杂适配</string>
+</resources>
