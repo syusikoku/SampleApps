@@ -37,6 +37,7 @@ import com.example.googletech.R
 
 
 /**
+ * 基础布局使用
  * https://developer.android.com/jetpack/compose/layouts/basics?hl=zh-cn
  */
 class BasicLayoutActivity : ComponentActivity() {
